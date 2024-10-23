@@ -1,0 +1,106 @@
+body {
+    box-sizing: border-box;
+}
+
+header {
+    text-align: center;
+}
+
+#popup {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}
+
+#form {
+    border: 10px solid black;
+    border-radius: 100px;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+}
+
+#form label {
+    margin-bottom: 10px
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+
+
+.form-button {
+    cursor: pointer;
+    width: 300px;
+    height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: aliceblue;
+    border-radius: 100px;
+    margin-bottom: 20px;
+}
+
+.form-button:hover {
+    transform: translateY(-5px);
+    background-color: aqua;
+    box-shadow: 5px 5px 5px gray;
+}
+
+
+
+.form-button-link {
+    cursor: pointer;
+    display: inline-block;
+    width: 300px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 15px;
+    border: 2px solid black;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: aliceblue;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    color: black;
+    /* ボタン内のテキストカラー */
+}
+
+
+.form-button-link::before {
+    cursor: pointer;
+    display: inline-block;
+    width: 300px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 15px;
+    border: 2px solid black;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: aliceblue;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.form-button-link:hover {
+    transform: translateY(-5px);
+    background-color: aqua;
+    box-shadow: 5px 5px 5px gray;
+}
+
+
+.input-info {
+    width: 300px;
+    height: 20px;
+    border: 2px solid skyblue;
+    border-radius: 100px;
+    margin-bottom: 30px;
+}

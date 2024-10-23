@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>OSHITABE</title>
+</head>
+
+<body>
+    <header>
+        <h1>OSHITABE</h1>
+        <p>今日のおかずは何にしますか？</p>
+    </header>
+    <form class="input-food" method="POST" action="">
+        <label for="foodname" class="inputtext">
+            冷蔵庫の中身を教えてください！
+            <textarea name="foodname" id="foodname" placeholder="carrot,beaf,onion..."></textarea>
+            <button class="submit" type="submit" id="thinking">レシピの内容を考える！</button>
+        </label>
+
+
+    </form>
+    <div id="recipes-list">
+        <ul class="item-list"></ul>
+    </div>
+    <footer>
+        株式会社OSHITABE.
+    </footer>
+
+    <script>
+
+        $('form').on("submit", function (e) {
+            e.preventDefault();
+            let foodname = $("#foodname").val();
+            if (foodname) {
+                thinkRecipes(foodname);
+            }
+        })
+
+        function thinkRecipes(text) {
+            const apiKey = "AIzaSyATUFAr_fJCnpgIxFv5Wl53AqhMf3qYBkc";
+            const url = `https://language.googleapis.com/v1/documents:analyzeEntities?key=${apiKey}`;
+            // APIに渡すデータをJSON形式にするためオブジェクト変数を用意し、中身を入れる
+            const data = {
+                document: {
+                    type: "PLAIN_TEXT",//プレーンなテキストを用意
+                    content: text//thinkRecipesを呼び出すときの引数text
+                },
+                encodingType: "UTF8"//文字コード
+
+            };
+
+            // APIにデータを渡すためのAJAX通信の処理内容
+            $.ajax({
+                type: "POST",//postでデータを送信
+                url: url,//APIのエンドポイントを設定
+                contentType: "application/json",//送るデータはJSON形式
+                data: JSON.stringify(data),//オブジェクト変数をJSONに変換
+                success: function (responce) {//通信成功時の処理でresponceを受けとる
+                    const foodlist = responce.entities.map(entity => entity.name);//responceで帰ってきたentitiesをentitiにマップ関数で詰め込む
+                    fetchRecipes(foodlist);//fethceRecipes()関数を呼び込み、foodlistを格納
+                },
+                error: function (error) {
+                    console.error("Error:", error);//errorをコンソールにはきだす・・・ヴォえ！
+                    alert("レシピを取得できませんでした。後でもう一度お試しください。1");
+                }
+            });
+        }
+
+        function fetchRecipes(foodlist) {
+            const apiKey = "542aad653e534ae4a92a812da3c9b21a";
+            const query = foodlist.join(',');
+            const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${query}&apiKey=${apiKey}`;
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (recipes) {
+                    displayRecipes(recipes);
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                    alert("レシピを取得できませんでした。後でもう一度お試しください。2");
+                }
+            });
+        }
+
+        function displayRecipes(recipes) {
+            $('.item-list').empty();//クリア
+            recipes.forEach(recipe => {
+                const recipeItem = `<li class="recipe-title">${recipe.title}</li>`;
+                const recipeImg = `<img src="${recipe.image}" alt="${recipe.title}">`;
+
+
+                //レシピ詳細を取得
+                const recipeId = recipe.id;
+                const apiKey = "542aad653e534ae4a92a812da3c9b21a";
+                const recipeDetailUrl = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`;
+
+                $.ajax({
+                    type: "GET",
+                    url: recipeDetailUrl,
+                    success: function (response) {
+                        if (response.analyzedInstructions && response.analyzedInstructions.length > 0) {
+                            const steps = response.analyzedInstructions[0].steps;
+                            steps.forEach(step => {
+                                const recipeSteps = `<li>${step.number}. ${step.step}</li>`;
+                                $('.item-list').append(recipeItem);
+                                $('.item-list').append(recipeImg);
+                                $('.item-list').append(recipeSteps);
+                            });
+                        } else {
+                            $('.item-list').append("<li>レシピの手順が見つかりませんでした。</li>");
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                    }
+                });
+
+            });
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

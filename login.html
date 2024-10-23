@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/signup.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>サインイン</title>
+</head>
+
+<body>
+    <header id="header">
+        <h1>OSHITABE!</h1>
+        <h1>サインイン画面</h1>
+    </header>
+
+    <form id="form" action="" method="post">
+        <div class="form-container">
+            <label for="username">ユーザー名</label>
+            <input class="input-info" type="text" name="username" id="username">
+            <label for="password">パスワード</label>
+            <input class="input-info" type="password" name="password" id="password">
+            <button class="form-button" id="signup" type="button" value="">サインイン</button>
+            <a class="form-button-link" href="signup.html">ユーザー情報を登録する方はこちら</a>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            // サインアップボタンが押されたとき
+            $("#signup").on("click", function () {
+                let username = $("#username").val();
+                let password = $("#password").val();
+
+                if (username && password) {
+                    // 既存のユーザーリストを取得（存在しない場合は空の配列を返す）
+                    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+                    // ユーザー名が既に存在しているかを確認　usesをuserに詰め込んで、名前を検索
+                    let existingUser = users.find(user => user.name === username);
+
+                    if(existingUser){
+                        $("#header").append('<p id="popup">料理をお楽しみください...</p>');
+                        $("#popup").fadeOut(2000,function(){
+                            window.location.href="index.html";//メイン画面に遷移.
+                        })
+                        
+
+                    }else {
+                        $("#header").append('<p id="popup">ユーザー情報が誤っているか、登録されていません</p>');
+                        $("#popup").fadeOut(2000,function(){
+                            $("#popup").remove();
+                        })
+                    }
+
+                } else {
+                    $("#header").append('<p id="popup">名前とパスワードが入力されていません</p>');
+                    $("#popup").fadeOut(1500,function(){
+                        $("#popup").remove();
+                    })
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+body {
+    font-family: "Nico Moji";
+    width: 500px;
+    margin: 0 auto;
+}
+
+header {
+    background-color: lightgreen;
+    text-align: center;
+    height: 80px;
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 20px;  
+}
+
+.inputtext {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    height: 300px;
+    border-radius: 20px;
+    background-color: antiquewhite;
+}
+
+.inputtext textarea {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+
+.recipe-title {
+    text-align: center;
+    list-style: none;
+    border-bottom: 1px solid black;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-color: white;
+    width: 200px;
+    height: 30px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.submit:hover {
+    transform: translateY(-5px);
+}
+
+img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+
+    object-fit:cover;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 100px;
+}
